@@ -1,11 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import CustomUserManager
 
-class CustomUser(AbstractUser) :
+class CustomUser(AbstractBaseUser, PermissionsMixin) :
     user_id = models.AutoField(primary_key=True)
+    user_name = models.CharField(max_length=20, unique=True)
+    is_staff = models.BooleanField(default=False)
 
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'user_name'
     objects = CustomUserManager()
 
 
