@@ -1,11 +1,10 @@
 from django.db import models
 from users.models import CustomUser
 from django.core.validators import MinLengthValidator, MaxLengthValidator
-# https://stackoverflow.com/questions/25943850/django-package-to-generate-random-alphanumeric-string
 
 class Link(models.Model) :
     link_shorten = models.CharField(max_length=5, validators=[MinLengthValidator(5)], primary_key=True)
-    link_original = models.URLField(max_length = 200)
+    link_original = models.CharField(max_length = 200)
     link_user = models.ForeignKey(CustomUser, related_name='links_user', on_delete=models.CASCADE)
 
     def __str__(self) :

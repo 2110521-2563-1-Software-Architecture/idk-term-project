@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     # Local
     'users.apps.UsersConfig',
-    'linkurl.apps.LinkurlConfig'
+    'linkurl.apps.LinkurlConfig',
+    'api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
