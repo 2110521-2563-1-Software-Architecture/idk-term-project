@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # Local
     'users.apps.UsersConfig',
     'linkurl.apps.LinkurlConfig',
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
+    'redirect.apps.RedirectConfig'
 ]
 
 MIDDLEWARE = [
