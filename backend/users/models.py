@@ -11,12 +11,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin) :
     objects = CustomUserManager()
 
 
-class CustomUserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, primary_key=True, on_delete=models.CASCADE, related_name='user')
+# class CustomUserProfile(models.Model):
+#     user = models.OneToOneField(CustomUser, primary_key=True, on_delete=models.CASCADE, related_name='user')
 
-    def __str__(self):
-        return self.user.username
+#     def __str__(self):
+#         return self.user.username
 
-    class Meta :
-        verbose_name = "Profile"
-        verbose_name_plural = "Profiles"
+#     class Meta :
+#         verbose_name = "Profile"
+#         verbose_name_plural = "Profiles"
