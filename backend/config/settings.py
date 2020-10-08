@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Local
+    'users.apps.UsersConfig',
+    'linkurl.apps.LinkurlConfig',
+    'api.apps.ApiConfig',
+    'redirect.apps.RedirectConfig'
 ]
 
 MIDDLEWARE = [
@@ -99,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
