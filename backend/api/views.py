@@ -16,6 +16,14 @@ def generateLink() :
 class LinkViewSet(viewsets.ModelViewSet) :
     serializer_class = LinkSerializer
     queryset = Link.objects.all()
+    
+    def retrieve(self, request, *args, **kwargs) :
+        uid = self.kwargs['pk']
+        if not CustomUser.objects.filter(user_id=uid).exists() :
+            return HttpResponseBadRequest('The user id is invalid.')
+        bs = Link.objects.filter(link_user=uid)
+        serializer = LinkSerializer(bs, many=True)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs) :
         user_id = request.data['user_id']
@@ -23,7 +31,7 @@ class LinkViewSet(viewsets.ModelViewSet) :
 
         # Validate user_id
         if user_id and not CustomUser.objects.filter(user_id=user_id).exists() :
-            return HttpResponseBadRequest('The user_id is invalid.')
+            return HttpResponseBadRequest('The user id is invalid.')
         # Create new link
         link_shorten = generateLink()
         serializer = self.get_serializer(data={'link_shorten': link_shorten, 'link_original': link_original, 'link_user': user_id})
