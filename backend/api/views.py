@@ -26,7 +26,7 @@ class LinkViewSet(viewsets.ModelViewSet) :
         bs = Link.objects.filter(link_user=uid)
         serializer = LinkSerializer(bs, many=True)
         for i in serializer.data:
-            i["link_access_count"] = len(AccessLog.objects.filter(access_log_shorten_url=i["link_shorten"]))
+            i["link_access"] = len(AccessLog.objects.filter(access_log_shorten_url=i["link_shorten"]))
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs) :
