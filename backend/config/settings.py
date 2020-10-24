@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'linkurl.apps.LinkurlConfig',
     'api.apps.ApiConfig',
-    'redirect.apps.RedirectConfig'
+    'redirect.apps.RedirectConfig',
     'access_log.apps.AccessLogConfig'
 ]
 
