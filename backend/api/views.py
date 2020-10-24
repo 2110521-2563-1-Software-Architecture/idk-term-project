@@ -2,10 +2,12 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.http import HttpResponseBadRequest
 from django.utils.crypto import get_random_string
+from django.db.models import Count
 
 from .serializers import LinkSerializer
 from linkurl.models import Link
 from users.models import CustomUser
+from access_log.models import AccessLog
 
 def generateLink() :
     sh = get_random_string(length=5)
@@ -23,6 +25,8 @@ class LinkViewSet(viewsets.ModelViewSet) :
             return HttpResponseBadRequest('The user id is invalid.')
         bs = Link.objects.filter(link_user=uid)
         serializer = LinkSerializer(bs, many=True)
+        for i in serializer.data:
+            i["link_access_count"] = len(AccessLog.objects.filter(access_log_shorten_url=i["link_shorten"]))
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs) :
