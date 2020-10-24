@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'linkurl.apps.LinkurlConfig',
     'api.apps.ApiConfig',
     'redirect.apps.RedirectConfig'
+    'access_log.apps.AccessLogConfig'
 ]
 
 MIDDLEWARE = [
