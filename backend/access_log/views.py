@@ -1,4 +1,4 @@
-from access_log.serializers import AccessLogSerializer
+from .serializers import AccessLogSerializer
 
 def log_access(shorten_url):
     serializer = AccessLogSerializer(data={"access_log_shorten_url":shorten_url})

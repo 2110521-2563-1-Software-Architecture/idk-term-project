@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from access_log.models import AccessLog
+from .models import AccessLog
 
 
 class AccessLogSerializer(serializers.ModelSerializer):
