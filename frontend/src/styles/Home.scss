@@ -1,8 +1,7 @@
+@import "./main.scss";
+
 .home-container {
-  background-color: whitesmoke;
-  padding: 20px;
-  min-height: 100vh;
-  min-width: 100vw;
+  @extend .body;
 
   .card-container {
       display: flex;

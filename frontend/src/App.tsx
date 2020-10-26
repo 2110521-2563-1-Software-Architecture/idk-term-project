@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { Home } from "views";
+import { Home, Signin } from "views";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
             <Home />
           </Route>
           <Route exact path="/signin">
-            <Home />
+            <Signin />
           </Route>
           <Route exact path="/signup">
             <Home />
