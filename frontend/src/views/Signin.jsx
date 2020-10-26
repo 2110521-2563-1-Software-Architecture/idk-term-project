@@ -10,9 +10,9 @@ class Signin extends React.Component {
         <div className="form-container">
           <div className="form-card">
             <Form>
-              <Form.Group controlId="email">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+              <Form.Group controlId="usernameOrEmail">
+                <Form.Label>Username or Email</Form.Label>
+                <Form.Control type="text" placeholder="Enter username or email" />
               </Form.Group>
 
               <Form.Group controlId="username">
@@ -24,9 +24,11 @@ class Signin extends React.Component {
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
               </Form.Group>
+              <div className="content-right">
               <Button variant="primary" type="submit">
                 Submit
               </Button>
+              </div>
             </Form>
           </div>
         </div>
