@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, InputGroup, FormControl } from "react-bootstrap";
 
-import "styles/Signup.scss";
+import "styles/Home.scss";
 
 class Home extends React.Component {
   render() {
     return (
-      <div className="signup-container">
+      <div className="home-container">
         <div className="card-container">
           <div className="main-card">
             <InputGroup className="mb-3">
