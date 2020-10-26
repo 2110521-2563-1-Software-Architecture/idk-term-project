@@ -4,6 +4,19 @@ import { Button, Form } from "react-bootstrap";
 import "styles/Signin.scss";
 
 class Signin extends React.Component {
+  state = {
+    signinData: {
+      usernameEmail: "",
+      password: "",
+    },
+  };
+
+  handleSigninDataChange = ({ target: { name, value } }) => {
+    const signinData = this.state.signinData;
+    signinData[name] = value;
+    this.setState({ signinData });
+  };
+
   render() {
     return (
       <div className="signin-container">
@@ -12,22 +25,29 @@ class Signin extends React.Component {
             <Form>
               <Form.Group controlId="usernameOrEmail">
                 <Form.Label>Username or Email</Form.Label>
-                <Form.Control type="text" placeholder="Enter username or email" />
-              </Form.Group>
-
-              <Form.Group controlId="username">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="Enter username" />
+                <Form.Control
+                  type="text"
+                  placeholder="Enter username or email"
+                  name="usernameEmail"
+                  value={this.state.signinData.usernameEmail}
+                  onChange={this.handleSigninDataChange}
+                />
               </Form.Group>
 
               <Form.Group controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  value={this.state.signinData.password}
+                  onChange={this.handleSigninDataChange}
+                />
               </Form.Group>
               <div className="content-right">
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+                <Button variant="primary" type="submit">
+                  Sign in
+                </Button>
               </div>
             </Form>
           </div>
