@@ -1,18 +1,30 @@
 import React from "react";
 import { Navbar } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { Home } from "views";
 
 function App() {
   return (
-    <div className="App">
-      <Navbar bg="dark" variant="dark" sticky="top">
-        <Navbar.Brand href="#home">
-          idk.ly
-        </Navbar.Brand>
-      </Navbar>
-      <Home />
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar bg="dark" variant="dark" sticky="top">
+          <Navbar.Brand href="#home">idk.ly</Navbar.Brand>
+        </Navbar>
+
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/signin">
+            <Home />
+          </Route>
+          <Route exact path="/signup">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
