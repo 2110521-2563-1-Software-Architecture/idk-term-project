@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { Home, Signin } from "views";
+import { Home, Signin, Signup } from "views";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
             <Signin />
           </Route>
           <Route exact path="/signup">
-            <Home />
+            <Signup />
           </Route>
         </Switch>
       </div>
