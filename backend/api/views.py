@@ -53,5 +53,5 @@ class LinkViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        return Response("idk.ly/" + link_shorten)
+        return Response(link_shorten)
 
