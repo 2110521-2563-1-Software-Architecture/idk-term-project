@@ -1,10 +1,11 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from django.http import HttpResponseBadRequest
 from django.utils.crypto import get_random_string
 from django.db.models import Count
 
-from .serializers import LinkSerializer
+from .serializers import LinkSerializer, CustomUserSerializer
 from linkurl.models import Link
 from users.models import CustomUser
 from access_log.models import AccessLog
@@ -55,3 +56,15 @@ class LinkViewSet(viewsets.ModelViewSet):
 
         return Response(link_shorten)
 
+
+class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = CustomUserSerializer
+
+    def create(self, request, *args, **kwargs):
+        user_name = request.data['user_name']
+        try:
+            CustomUserSerializer.create(CustomUserSerializer(), validated_data=request.data)
+        except Exception as e:
+            return HttpResponseBadRequest(str(e))
+        return Response('User: ' + user_name + ". Registration successful!")
