@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: "",
+  baseURL: process.env.REACT_APP_BASE_URL || "",
   timeout: 1000,
   headers: {
     Authorization: localStorage.getItem("token") || "",
