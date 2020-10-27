@@ -11,8 +11,10 @@ export const signUp = (signupData: props) => {
   client.post("api/signup/", body)
   .then((response) => {
     console.log(response);
+    alert("Sign up success!!!");
   })
   .catch((error) => {
     console.log(error);
+    alert("Sign up fail!!!")
   })
 };

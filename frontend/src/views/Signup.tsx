@@ -26,7 +26,7 @@ class Signup extends React.Component {
   };
 
   handleSignup = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault;
+    e.preventDefault();
     
     try {
       signUp(this.state.signupData); 
