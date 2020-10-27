@@ -7,8 +7,7 @@ from users.models import CustomUser
 class LinkSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Link
-        # fields = '__all__'
-        fields = ['link_shorten','link_original','link_user']
+        fields = '__all__'
 
     def create(self, validated_data):
         links = Link.objects.create(link_shorten=validated_data.pop('link_shorten'),
