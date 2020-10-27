@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from linkurl.models import Link
 from users.models import CustomUser
@@ -27,3 +28,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
                                               user_email=validated_data.pop('user_email'))
         user.save()
         return user
+
+class CustomJWTSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        credentials = {
+            'user_name': attrs.get("user_name"),
+            'password': attrs.get("password")
+        }
+        user_obj = CustomUser.objects.filter(user_email=attrs.get("user_name")).first() or CustomUser.objects.filter(user_name=attrs.get("user_name")).first()
+        if user_obj:
+            credentials['user_name'] = user_obj.user_name
+        return super().validate(credentials)

@@ -12,7 +12,10 @@
 in your virtual environment, run the following commands
 
 python -m pip install Django\
-pip install djangorestframework
+pip install djangorestframework\
+pip install djangorestframework-simplejwt\
+pip install django-filter\
+pip install djoser
 
 ## How to sync Database
 Run
