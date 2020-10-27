@@ -11,12 +11,12 @@
 # BACKEND REQUIREMENTS
 in your virtual environment, run the following commands
 
-python -m pip install Django
+python -m pip install Django\
 pip install djangorestframework
 
 ## How to sync Database
 Run
-python manage.py makemigrations
+python manage.py makemigrations\
 python manage.py migrate
 
 ## To create superuser that can login to localhost/admin
