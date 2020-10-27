@@ -1,5 +1,5 @@
-import Home from "views/Home";
-import Signin from "views/Signin";
-import Signup from "views/Signup";
+import Home from "Home";
+import Signin from "Signin";
+import Signup from "signUp";
 
 export { Home, Signin, Signup };
