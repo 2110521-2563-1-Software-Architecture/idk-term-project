@@ -1,7 +1,9 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 
 import signIn from "api/signIn";
+import { isLoggedIn } from "helpers/Auth";
 import "styles/Signin.scss";
 
 interface State {
@@ -9,6 +11,7 @@ interface State {
     usernameEmail: string;
     password: string;
   };
+  isLoggedIn: boolean;
 }
 
 class Signin extends React.Component {
@@ -17,13 +20,17 @@ class Signin extends React.Component {
       usernameEmail: "",
       password: "",
     },
+    isLoggedIn: isLoggedIn(),
   };
 
   handleSignin = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     try {
-      signIn(this.state.signinData);
+      const result = signIn(this.state.signinData);
+      if (result) {
+        this.setState({ isLoggedIn: true });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -41,6 +48,10 @@ class Signin extends React.Component {
   };
 
   render() {
+    if (this.state.isLoggedIn) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div className="signin-container">
         <div className="form-container">

@@ -1,12 +1,11 @@
 import client from "./httpClient";
-import { useHistory } from "react-router-dom";
 
 export interface Props {
   usernameEmail: string;
   password: string;
 }
 
-const signIn = (props: Props): void => {
+const signIn = (props: Props): boolean => {
   const body = {
     user_name: props.usernameEmail,
     password: props.password,
@@ -18,13 +17,14 @@ const signIn = (props: Props): void => {
         const token = `Bearer ${response.data.access}`;
         localStorage.setItem("token", token);
 
-        const history = useHistory();
-        history.push("/");
+        return true;
       }
     })
     .catch((error) => {
       console.log(error);
     });
+
+  return false;
 };
 
 export default signIn;
