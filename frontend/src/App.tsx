@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Navbar } from "react-bootstrap";
 
 import { Home } from "views";
