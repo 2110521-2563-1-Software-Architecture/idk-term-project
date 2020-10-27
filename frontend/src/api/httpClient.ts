@@ -12,6 +12,8 @@ client.interceptors.response.use((response) => {
   if (response.status === 401) {
     // redirect to login
   }
+
+  return response.data;
 });
 
 export default client;
