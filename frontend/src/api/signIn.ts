@@ -11,7 +11,7 @@ const signIn = (props: Props) => {
     password: props.password,
   };
   client
-    .post("token/", body)
+    .post("signin/", body)
     .then((response) => {
       if (response.status === 200) {
         const token = `Bearer ${response.data.access}`;
