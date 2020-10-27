@@ -15,7 +15,8 @@ python -m pip install Django\
 pip install djangorestframework\
 pip install djangorestframework-simplejwt\
 pip install django-filter\
-pip install djoser
+pip install djoser\
+pip install django-cors-header
 
 ## How to sync Database
 Run
