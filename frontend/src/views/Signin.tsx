@@ -1,14 +1,32 @@
 import React, { ChangeEvent } from "react";
 import { Button, Form } from "react-bootstrap";
 
+import signIn from "api/signIn";
 import "styles/Signin.scss";
 
+interface State {
+  signinData: {
+    usernameEmail: string;
+    password: string;
+  };
+}
+
 class Signin extends React.Component {
-  state = {
+  state: State = {
     signinData: {
       usernameEmail: "",
       password: "",
     },
+  };
+
+  handleSignin = (e: Event) => {
+    e.preventDefault;
+
+    try {
+      signIn(this.state.signinData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleSigninDataChange = ({
@@ -50,7 +68,7 @@ class Signin extends React.Component {
                 />
               </Form.Group>
               <div className="content-right">
-                <Button variant="primary" type="submit">
+                <Button variant="primary" onClick={this.handleSignin}>
                   Sign in
                 </Button>
               </div>

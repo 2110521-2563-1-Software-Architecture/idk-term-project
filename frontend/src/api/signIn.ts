@@ -1,11 +1,11 @@
 import client from "./httpClient";
 
-export interface props {
+export interface Props {
   usernameEmail: string;
   password: string;
 }
 
-export const signIn = (props: props) => {
+const signIn = (props: Props) => {
   const body = {
     user_name: props.usernameEmail,
     password: props.password,
@@ -22,3 +22,5 @@ export const signIn = (props: props) => {
       console.log(error);
     });
 };
+
+export default signIn;
