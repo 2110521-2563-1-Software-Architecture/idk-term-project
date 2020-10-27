@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Button, Form } from "react-bootstrap";
 
 import signIn from "api/signIn";
@@ -19,7 +19,7 @@ class Signin extends React.Component {
     },
   };
 
-  handleSignin = (e: Event) => {
+  handleSignin = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault;
 
     try {
