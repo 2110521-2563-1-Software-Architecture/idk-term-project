@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
 
+    'corsheaders',
+
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -98,7 +101,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
     ),
      'DEFAULT_FILTER_BACKENDS':(
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -115,13 +118,6 @@ DJOSER= {
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-CORS_ORIGIN_REGEX_WHITELIST = [
-    'http://localhost:3000',
-]
-
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',

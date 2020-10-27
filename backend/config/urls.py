@@ -7,6 +7,6 @@ from api.serializers import CustomJWTSerializer
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('signin/', TokenObtainPairView.as_view(serializer_class=CustomJWTSerializer)),
+    path('signin/', TokenObtainPairView.as_view()),
     re_path(r'^(?!admin)([a-zA-Z0-9]){5}$', RedirectViewSet.redirect, name='redirect')
 ]

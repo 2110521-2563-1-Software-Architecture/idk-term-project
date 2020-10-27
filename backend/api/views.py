@@ -1,11 +1,13 @@
 from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenViewBase
+
 from django.http import HttpResponseBadRequest
 from django.utils.crypto import get_random_string
 from django.db.models import Count
 
-from .serializers import LinkSerializer, CustomUserSerializer
+from .serializers import LinkSerializer, CustomUserSerializer, CustomJWTSerializer
 from linkurl.models import Link
 from users.models import CustomUser
 from access_log.models import AccessLog
@@ -22,9 +24,10 @@ class LinkViewSet(viewsets.ModelViewSet):
     serializer_class = LinkSerializer
     queryset = Link.objects.all()
 
-    def retrieve(self, request, *args, **kwargs):
-        uid = self.kwargs["pk"]
-        if not CustomUser.objects.filter(user_id=uid).exists():
+    def list(self, request):
+        
+        uid = request.user
+        if not CustomUser.objects.filter(user_name=uid).exists():
             return HttpResponseBadRequest("The user id is invalid.")
         bs = Link.objects.filter(link_user=uid)
         serializer = LinkSerializer(bs, many=True)
@@ -68,3 +71,18 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         except Exception as e:
             return HttpResponseBadRequest(str(e))
         return Response('User: ' + user_name + ". Registration successful!")
+
+class TokenObtainPairView(TokenViewBase):
+    serializer_class = CustomJWTSerializer
+
+class SigninViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = CustomJWTSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            e = CustomJWTSerializer.validate(CustomJWTSerializer(), attrs=request.data)
+        except Exception as e:
+            return HttpResponseBadRequest(str(e))
+        print(Response(e).status_code)
+        return Response(e)
