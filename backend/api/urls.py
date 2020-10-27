@@ -4,6 +4,6 @@ from .views import LinkViewSet, RegisterViewSet
 
 router = DefaultRouter()
 router.register(r'link', LinkViewSet, basename='link')
-router.register(r'register', RegisterViewSet, basename='register')
+router.register(r'signup', RegisterViewSet, basename='register')
 
 urlpatterns = router.urls
