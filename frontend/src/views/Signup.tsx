@@ -2,6 +2,8 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 
 import "styles/Signup.scss";
+import "api/signUp.ts";
+import { signUp } from "api/signUp";
 
 class Signup extends React.Component {
   state = {
@@ -12,28 +14,25 @@ class Signup extends React.Component {
     },
   };
 
-  handleSignupDataChange = ({ target: { name, value } }) => {
+  handleSignupDataChange = ({ 
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = target;
     const signupData = this.state.signupData;
-    signupData[name] = value;
+    if (name === "user_name" || name === "password" || name === "user_email"){
+      signupData[name] = value;
+    }
     this.setState({ signupData });
   };
 
-  handleSubmit = (e) => {
-    e.prevenDefault();
-
-    axios
-      .post(process.env.REACT_APP_BACKEND_URL + "/auth/register", this.state.signupData)
-      .then( (response) => {
-        console.log(response);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          
-        } else {
-
-        }
-      });
+  handleSignup = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault;
+    
+    try {
+      signUp(this.state.signupData); 
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
@@ -41,7 +40,7 @@ class Signup extends React.Component {
       <div className="signup-container">
         <div className="form-container">
           <div className="form-card">
-            <Form onSubmit={this.handleSubmit}>
+            <Form>
               <Form.Group controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
@@ -73,7 +72,7 @@ class Signup extends React.Component {
               </Form.Group>
 
               <div className="content-right">
-                <Button variant="primary" type="submit">
+                <Button variant="primary" onClick={this.handleSignup}>
                   Sign up
                 </Button>
               </div>
