@@ -20,7 +20,6 @@ def generateLink():
 
 class LinkViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
-    # permission_classes_by_action = {'create': [AllowAny]}
     serializer_class = LinkSerializer
     queryset = Link.objects.all()
 
