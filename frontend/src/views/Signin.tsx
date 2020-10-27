@@ -20,7 +20,7 @@ class Signin extends React.Component {
   };
 
   handleSignin = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault;
+    e.preventDefault();
 
     try {
       signIn(this.state.signinData);
