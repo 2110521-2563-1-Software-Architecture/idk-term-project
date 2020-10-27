@@ -4,7 +4,8 @@ from .managers import CustomUserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin) :
     user_id = models.AutoField(primary_key=True)
-    user_name = models.CharField(max_length=20, unique=True)
+    user_name = models.CharField(max_length=20, unique=True, null=False)
+    user_email = models.EmailField(max_length=70, unique=True, null=False)
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'user_name'
