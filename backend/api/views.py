@@ -19,13 +19,15 @@ def generateLink():
 
 
 class LinkViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    # permission_classes_by_action = {'create': [AllowAny]}
     serializer_class = LinkSerializer
     queryset = Link.objects.all()
 
     def list(self, request):
         uid = request.user
         if not CustomUser.objects.filter(user_name=uid).exists():
-            return HttpResponseBadRequest("The user id is invalid.")
+            return Response("The user token is invalid.", status=401)
         bs = Link.objects.filter(link_user=uid)
         serializer = LinkSerializer(bs, many=True)
         for i in serializer.data:
@@ -35,12 +37,16 @@ class LinkViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        user_id = request.data["user_id"]
+        if request.user.is_authenticated:
+            user_id = request.user.user_id
+        else:
+            user_id = None
+        
         link_original = request.data["link_original"]
 
         # Validate user_id
         if user_id and not CustomUser.objects.filter(user_id=user_id).exists():
-            return HttpResponseBadRequest("The user id is invalid.")
+            return HttpResponseBadRequest("The user token not found.")
         # Create new link
         link_shorten = generateLink()
         serializer = self.get_serializer(
