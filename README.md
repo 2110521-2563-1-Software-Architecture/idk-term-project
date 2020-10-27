@@ -8,7 +8,7 @@
 * Yodsavee Lertthirathanaphong 6030482421
 * David Tumcharoen 6031015221
 
-# BACKEND REQUIREMENTS
+# Backend Requirements
 in your virtual environment, run the following commands
 
 python -m pip install Django
