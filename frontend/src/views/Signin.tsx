@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Button, Form } from "react-bootstrap";
 
 import "styles/Signin.scss";
@@ -11,9 +11,14 @@ class Signin extends React.Component {
     },
   };
 
-  handleSigninDataChange = ({ target: { name, value } }) => {
+  handleSigninDataChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = target;
     const signinData = this.state.signinData;
-    signinData[name] = value;
+    if (name === "usernameEmail" || name === "password") {
+      signinData[name] = value;
+    }
     this.setState({ signinData });
   };
 
