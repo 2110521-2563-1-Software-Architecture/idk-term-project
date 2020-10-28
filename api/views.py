@@ -11,11 +11,27 @@ from linkurl.models import Link
 from users.models import CustomUser
 from access_log.models import AccessLog
 
+import re
+
 def generateLink():
     sh = get_random_string(length=5)
     while Link.objects.filter(link_shorten=sh).exists():
         sh = get_random_string(length=5)
     return sh
+
+def validateLink(url):
+    if not url.startswith(("http://", "https://", "ftp://", "ftps://")):
+        url = "http://" + url
+    regex = re.compile(
+        r'^(?:http|ftp)s?://' #http:// or https:// or ftp://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain
+        r'localhost|' #localhost
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' #ip
+        r'(?::\d+)?' #port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    if re.match(regex, url) is not None:
+        return url, 1
+    else: return url, 0
 
 
 class LinkViewSet(viewsets.ModelViewSet):
@@ -36,13 +52,15 @@ class LinkViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
+        link_original, flag = validateLink(request.data["link_original"])
+        if flag == 0: return HttpResponseBadRequest("The URL is invalid.")
+
+        # Switch between registered and anonymous users
         if request.user.is_authenticated:
             user_id = request.user.user_id
         else:
             user_id = None
-        
-        link_original = request.data["link_original"]
-
+    
         # Validate user_id
         if user_id and not CustomUser.objects.filter(user_id=user_id).exists():
             return HttpResponseBadRequest("The user token not found.")
