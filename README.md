@@ -1,4 +1,4 @@
-# idk-term-project
+# idk-term-project-backend
 
 # Member
 * Kritsana Khankaew 6030026021
@@ -22,6 +22,10 @@ pip install django-cors-header
 Run
 python manage.py makemigrations\
 python manage.py migrate
+
+## To run a development server
+Run
+python manage.py runserver
 
 ## To create superuser that can login to localhost/admin
 python manage.py createsuperuser
