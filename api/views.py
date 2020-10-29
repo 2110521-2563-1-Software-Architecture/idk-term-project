@@ -79,6 +79,13 @@ class LinkViewSet(viewsets.ModelViewSet):
 
         return Response(link_shorten)
 
+    def destroy(self, request, *args, **kwargs):
+        uid = request.user
+        instance = self.get_object()
+        if instance.link_user != uid: return Response("This user does not own this link!", status=401)
+        self.perform_destroy(instance)
+        return Response("Deleted.", status=204)
+
 
 class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     permission_classes = [AllowAny]
