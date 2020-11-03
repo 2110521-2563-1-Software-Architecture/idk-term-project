@@ -23,13 +23,16 @@ jobs:
           uses: actions/checkout@master
 
         - name: Setup ECR
-          run: $( aws ecr get-login --no-include-email )
+          run: |
+          $( aws ecr get-login --no-include-email )
 
         - name: Build and tag the image
-          run: docker build \
-                -t $CONTAINER_IMAGE \
-                -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./app
+          run: | 
+          docker build \
+            -t $CONTAINER_IMAGE \
+            -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./app
 
         - name: Push
           if: github.ref == 'refs/heads/master'
-          run: docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
+          run: |
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
