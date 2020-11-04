@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny
 from django.http import HttpResponseBadRequest
 from django.utils.crypto import get_random_string
 from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from .serializers import LinkSerializer, CustomUserSerializer, CustomJWTSerializer
 from linkurl.models import Link
@@ -115,3 +116,13 @@ class SigninViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         except Exception as e:
             return HttpResponseBadRequest(str(e))
         return Response(token)
+
+
+class AccessLogViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = AccessLogSerializer
+
+    def list(self, request):
+        uid = request.user
+        accesslog = AccessLog.objects.filter(access_log_shorten_url__link_user=uid)
+        return Response("TODO")
