@@ -10,6 +10,7 @@ from .serializers import LinkSerializer, CustomUserSerializer, CustomJWTSerializ
 from linkurl.models import Link
 from users.models import CustomUser
 from access_log.models import AccessLog
+from access_log.serializers import AccessLogSerializer
 
 import re
 
@@ -45,10 +46,14 @@ class LinkViewSet(viewsets.ModelViewSet):
             return Response("The user token is invalid.", status=401)
         bs = Link.objects.filter(link_user=uid)
         serializer = LinkSerializer(bs, many=True)
+        accesslog_count = (
+            AccessLog.objects.filter(access_log_shorten_url__link_user=uid)
+                .values('access_log_shorten_url')
+                .annotate(total=Count('access_log_shorten_url'))
+        )
+        accesslog_count = {i["access_log_shorten_url"]:i["total"] for i in accesslog_count}
         for i in serializer.data:
-            i["link_access"] = len(
-                AccessLog.objects.filter(access_log_shorten_url=i["link_shorten"])
-            )
+            i["link_access"] = accesslog_count[i["link_shorten"]]
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
