@@ -5,10 +5,6 @@ on:
             
 name: Building and pushing a docker image to AWS ECR
 
-    AWS_DEFAULT_OUTPUT: json
-    AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-    CONTAINER_IMAGE: soft-arch-backend-container:${{ github.sha }}
-
 jobs:
     build-and-push:
         name: Building and pushing image to AWS ECR
