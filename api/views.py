@@ -5,13 +5,16 @@ from rest_framework.permissions import AllowAny
 from django.http import HttpResponseBadRequest
 from django.utils.crypto import get_random_string
 from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from .serializers import LinkSerializer, CustomUserSerializer, CustomJWTSerializer
 from linkurl.models import Link
 from users.models import CustomUser
 from access_log.models import AccessLog
+from access_log.serializers import AccessLogSerializer
 
 import re
+from datetime import *
 
 def generateLink():
     sh = get_random_string(length=5)
@@ -45,10 +48,17 @@ class LinkViewSet(viewsets.ModelViewSet):
             return Response("The user token is invalid.", status=401)
         bs = Link.objects.filter(link_user=uid)
         serializer = LinkSerializer(bs, many=True)
+        accesslog_count = (
+            AccessLog.objects.filter(access_log_shorten_url__link_user=uid)
+                .values('access_log_shorten_url')
+                .annotate(total=Count('access_log_shorten_url'))
+        )
+        accesslog_count = {i["access_log_shorten_url"]:i["total"] for i in accesslog_count}
         for i in serializer.data:
-            i["link_access"] = len(
-                AccessLog.objects.filter(access_log_shorten_url=i["link_shorten"])
-            )
+            try:
+                i["link_access"] = accesslog_count[i["link_shorten"]]
+            except KeyError:
+                i["link_access"] = 0
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
@@ -110,3 +120,46 @@ class SigninViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         except Exception as e:
             return HttpResponseBadRequest(str(e))
         return Response(token)
+
+
+class AccessLogViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = AccessLogSerializer
+
+    def list(self, request):
+        uid = request.user
+        if not CustomUser.objects.filter(user_name=uid).exists():
+            return Response("The user token is invalid.", status=401)
+        accesslog =(
+            AccessLog.objects.annotate(access_date=TruncDate("access_log_access_datetime"))
+            .filter(access_log_shorten_url__link_user=uid)
+            .values("access_log_shorten_url","access_date")
+            .annotate(access_count=Count("access_log_shorten_url"))
+        )
+        access_data = dict()
+        for i in accesslog:
+            try:
+                access_data[i["access_log_shorten_url"]][i["access_date"]] = i["access_count"]
+            except KeyError:
+                access_data[i["access_log_shorten_url"]] = dict()
+                access_data[i["access_log_shorten_url"]][i["access_date"]] = i["access_count"]
+
+        out = list()
+        bs = Link.objects.filter(link_user=uid)
+        for i in bs:
+            shorten_url = i.link_shorten
+            tmp = dict()
+            tmp["access_log_shorten_url"] = shorten_url
+            tmp["access_data"] = list()
+            access_date = date.today()-timedelta(days=29)
+            for j in range(30):
+                if shorten_url in access_data:
+                    if access_date in access_data[shorten_url]:
+                        tmp["access_data"].append({"access_date":access_date,"access_count":access_data[shorten_url][access_date]})
+                    else:
+                        tmp["access_data"].append({"access_date":access_date,"access_count":0})
+                else:
+                    tmp["access_data"].append({"access_date":access_date,"access_count":0})
+                access_date += timedelta(days=1)
+            out.append(tmp)
+        return Response(out)

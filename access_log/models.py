@@ -8,3 +8,7 @@ class AccessLog(models.Model):
     access_log_shorten_url = models.ForeignKey(
         Link, related_name="access", on_delete=models.CASCADE, null=True
     )
+
+    def __str__(self):
+        shorten_url = str(self.access_log_shorten_url).split("\n")[0]
+        return f"[{str(self.access_log_access_datetime)}] {shorten_url}"
