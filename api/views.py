@@ -75,7 +75,7 @@ class LinkViewSet(viewsets.ModelViewSet):
         if user_id and not CustomUser.objects.filter(user_id=user_id).exists():
             return HttpResponseBadRequest("The user token not found.")
         # Create new link
-        link_shorten = generateLink()
+        link_shorten = request.data['link_shorten'] if request.data['link_shorten'] else generateLink()
         serializer = self.get_serializer(
             data={
                 "link_shorten": link_shorten,
