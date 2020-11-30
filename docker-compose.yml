@@ -1,0 +1,9 @@
+backend-container:
+    image: 245544241008.dkr.ecr.ap-southeast-1.amazonaws.com/soft-arch-backend:backend
+    container_name: backend-container
+    restart: always
+    env_file:
+      --envfile
+    ports:
+      - "8000:8000"
+    command: 'python3 manage.py runserver 0.0.0.0:8000'
