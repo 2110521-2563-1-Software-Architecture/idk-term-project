@@ -22,4 +22,3 @@ services:
       ports:
         - "8090:8090"
       command: 'python3 manage.py runserver 0.0.0.0:8090'
-      
