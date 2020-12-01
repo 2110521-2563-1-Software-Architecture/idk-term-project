@@ -17,5 +17,11 @@ RUN \
     python3 -m pip install -r requirements.txt --no-cache-dir && \
     apk --purge del .build-deps
 
+# copy entrypoint.sh
+COPY ./entrypoint.sh .
+
 # copy project
 COPY . .
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
